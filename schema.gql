@@ -1,0 +1,206 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: ID!
+  name: String!
+  type: String
+  icon: String!
+  slug: String!
+  children: [Category!]!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  image: String!
+  type: String!
+  unit: String!
+  slug: String!
+  categories: [Category!]!
+  price: Float!
+  salePrice: Float!
+  discountInPercent: Int!
+  description: String
+  createdAt: Date!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Coupon {
+  id: ID!
+  title: String!
+  number_of_coupon: Int!
+  number_of_used_coupon: Int!
+  discount_in_percent: Int!
+  products: [Product!]
+  code: String!
+  status: String!
+  expiration_date: Date
+  createdAt: Date!
+}
+
+type Products {
+  items: [Product!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
+type Contact {
+  id: ID!
+  type: String!
+  number: String!
+}
+
+type Address {
+  id: ID!
+  type: String!
+  name: String!
+  info: String!
+}
+
+type Card {
+  id: ID!
+  type: String!
+  name: String!
+  cardType: String!
+  lastFourDigit: Float!
+}
+
+type Customer {
+  id: ID!
+  name: String!
+  image: String!
+  email: String!
+  addresses: [Address!]!
+  contacts: [Contact!]!
+  cards: [Card!]!
+  createdAt: Date!
+  has_blocked: Boolean!
+  total_order: Int
+  total_order_amount: Int
+  rank: String!
+}
+
+type OrderProduct {
+  id: ID!
+  title: String!
+  image: String!
+  price: Float!
+  weight: String!
+  quantity: Float!
+}
+
+type Order {
+  id: ID!
+  customer_id: ID!
+  products: [OrderProduct!]!
+  status: String!
+  deliveryTime: String!
+  amount: String!
+  subtotal: String!
+  discount: String!
+  delivery_fee: String!
+  delivery_address: String!
+  createdAt: String!
+}
+
+type Staff {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  contact_number: String!
+  email: String!
+  role: String!
+  createdAt: Date!
+}
+
+type Query {
+  """Get all the categories"""
+  categories(type: String, searchBy: String): [Category!]!
+  category(id: String!): Category!
+
+  """Get All Coupons"""
+  coupons(status: String, searchBy: String): [Coupon!]!
+
+  """Get all the products"""
+  products(limit: Int = 12, offset: Int = 0, sortByPrice: String, type: String, searchText: String, category: String): Products!
+  product(slug: String!): Product!
+  customers(searchBy: String, sortBy: String = null, limit: Float = 7): [Customer!]!
+  customer(id: String!): Customer!
+
+  """Get all the Orders"""
+  orders(status: String, limit: Float = 50, searchText: String = ""): [Order!]!
+  order(id: String!): Order!
+
+  """Get all the Staffs"""
+  staffs(role: String, searchBy: String): [Staff!]!
+  staff(id: String!): Staff!
+}
+
+type Mutation {
+  """Create Category"""
+  createCategory(newCategoryData: NewCategoryInput!): Category!
+
+  """Create Coupon"""
+  createCoupon(coupon: NewCouponInput!): Coupon!
+
+  """Create Product"""
+  createProduct(product: NewProductInput!): Product!
+
+  """Create Staff"""
+  createStaff(staff: NewStaffInput!): Staff!
+}
+
+"""New Category Data"""
+input NewCategoryInput {
+  id: ID!
+  name: String!
+  value: String = null
+  type: String = null
+  icon: String
+  slug: String
+  children: [NewCategoryInput!]!
+}
+
+"""New coupon data"""
+input NewCouponInput {
+  id: ID!
+  title: String!
+  number_of_coupon: Int!
+  discount_in_percent: Int!
+  products: [NewProductInput!]
+  code: String!
+  status: String = "active"
+  expiration_date: Date
+}
+
+"""New Product Data"""
+input NewProductInput {
+  id: ID!
+  name: String!
+  slug: String!
+  image: String!
+  type: String!
+  unit: String = "1"
+  categories: [NewCategoryInput!]
+  price: Int!
+  salePrice: Float
+  discountInPercent: Int = 0
+  description: String
+  createdAt: Date!
+}
+
+"""New staff data"""
+input NewStaffInput {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  contact_number: String!
+  email: String!
+  role: String!
+  name: String
+  creation_date: Date!
+}
