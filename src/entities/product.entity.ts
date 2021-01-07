@@ -47,7 +47,7 @@ export class ProductEntity {
   @RelationId((product: ProductEntity) => product.coupon)
   couponId: string;
 
-  @Column({ type: 'jsonb',array: true, nullable: true })
+  @Column('jsonb')
   gallery: Gallery[];
 
   @CreateDateColumn({ name: 'created_at' })
