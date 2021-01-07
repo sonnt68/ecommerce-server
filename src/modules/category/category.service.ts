@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, TreeRepository } from 'typeorm';
+import { TreeRepository } from 'typeorm';
 import { CategoriesArgs } from './dto/category.args';
 import { Category } from './models/category.model';
 import { CategoryEntity } from '../../entities/category.entity';
@@ -11,7 +11,6 @@ import search from 'src/helpers/search';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryEntity) private cateRepo: TreeRepository<CategoryEntity>,
-    @InjectRepository(CategoryEntity) private treeRepository: TreeRepository<CategoryEntity>,
   ) {}
 
   async create(data: NewCategoryInput): Promise<void> {

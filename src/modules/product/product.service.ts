@@ -30,7 +30,7 @@ export class ProductService {
   }
 
   async findAll({ limit, offset, sortByPrice, type, searchText, category }: ProductsArgs): Promise<Products> {
-    const productFound = await this.productRepo.find();
+    const productFound = await this.productRepo.find({ relations: ["categories"] });
     let products = productFound;
     if (category) {
       products = products.filter((product) => product.categories.find((category_item) => category_item.slug === category));
