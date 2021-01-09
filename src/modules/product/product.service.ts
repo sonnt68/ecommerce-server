@@ -30,8 +30,7 @@ export class ProductService {
   }
 
   async findAll({ limit, offset, sortByPrice, type, searchText, category }: ProductsArgs): Promise<Products> {
-    const productFound = await this.productRepo.find({ relations: ["categories"] });
-    let products = productFound;
+    let products = await this.productRepo.find({ relations: ["categories"] });
     if (category) {
       products = products.filter((product) => product.categories.find((category_item) => category_item.slug === category));
     }
@@ -55,7 +54,7 @@ export class ProductService {
 
     return {
       items: products.slice(offset, offset + limit),
-      totalCount: productFound.length,
+      totalCount: products.length,
       hasMore,
     };
   }
